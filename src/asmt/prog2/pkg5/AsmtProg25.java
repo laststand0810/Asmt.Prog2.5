@@ -7,6 +7,7 @@ package asmt.prog2.pkg5;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.TreeSet;
@@ -28,6 +29,7 @@ public class AsmtProg25 {
         
         Scanner fileIn;
         TreeSet<String> suggestions = new TreeSet<>();
+        HashSet<String> storedWords = new HashSet<>();
         try {
             fileIn = new Scanner(new File("src/asmt/prog2/pkg5/words.txt"));
             // put words in words.txt to hashSet
@@ -44,7 +46,7 @@ public class AsmtProg25 {
             fileIn = new Scanner(getInputFileNameFromUser()).useDelimiter("[^a-zA-Z]+");
             while (fileIn.hasNext()){
                 temp = fileIn.next().toLowerCase();
-                if (!dictionary.contains(temp)){
+                if (!dictionary.contains(temp) && !storedWords.contains(temp)){
                     suggestions = corrections(temp, dictionary);
 
                     // Output result
@@ -53,6 +55,7 @@ public class AsmtProg25 {
                     }else{
                         System.out.println(temp + ": (no suggestion)");
                     }
+                    storedWords.add(temp);
                 }
             }
         } catch (FileNotFoundException ex) {
@@ -78,7 +81,7 @@ public class AsmtProg25 {
     
     /** corrections function will check the bad word with included dictionary
     * checks included: 
-    *   delete from any one of the letter
+    *   delete from any     one of the letter
     *   change any letter to another letter
     *   insert additional letter in between any position
     *   swap any two neighboring letter
